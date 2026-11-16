@@ -35,7 +35,14 @@ public abstract class ObjetoJuego {
         return getLimites().intersects(otro.getLimites());
     }
 
-    /** Distancia entre centros expresada en metros (no en píxeles). */
+    /**
+     * Distancia entre centros expresada en metros (no en píxeles).
+     *
+     * Decisión de diseño: la consigna solo define una escala de píxeles por
+     * metro para la profundidad (eje Y). Como no especifica una escala
+     * horizontal, se reutiliza la misma (PX_POR_METRO) para el eje X, de
+     * forma que la distancia se pueda medir con una sola fórmula euclídea.
+     */
     public double distanciaEnMetros(ObjetoJuego otro) {
         double dx = x - otro.x;
         double dy = y - otro.y;

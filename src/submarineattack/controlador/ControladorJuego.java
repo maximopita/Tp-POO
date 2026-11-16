@@ -141,9 +141,14 @@ public class ControladorJuego implements JuegoListener {
 
     @Override
     public void estadoCambiado(EstadoJuego nuevoEstado) {
-        if (nuevoEstado == EstadoJuego.GAME_OVER || nuevoEstado == EstadoJuego.VICTORIA) {
+        // VICTORIA siempre llega después de un nivelCompletado(), que ya guarda:
+        // evitamos reescribir el mismo registro dos veces.
+        if (nuevoEstado == EstadoJuego.GAME_OVER) {
             jugadorActual.actualizarRecord(juego.getPuntos());
             guardar();
+        }
+        if (nuevoEstado == EstadoJuego.GAME_OVER || nuevoEstado == EstadoJuego.VICTORIA) {
+            timerJuego.stop();
         }
     }
 

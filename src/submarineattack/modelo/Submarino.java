@@ -45,7 +45,14 @@ public class Submarino extends ObjetoJuego {
         return Constantes.yAProfundidad(y);
     }
 
-    /** Resta un porcentaje de salud; si se agota, se pierde una vida. */
+    /**
+     * Resta un porcentaje de salud; si se agota, se pierde una vida.
+     *
+     * Decisión de diseño: la consigna solo indica "pierde una vida" para el
+     * golpe directo (menos de 10 m). Acá se extiende esa regla: el daño
+     * acumulado de varios golpes de 30%/50% dentro de la misma vida también
+     * puede llegar a 0 y hacer perder una vida completa.
+     */
     public void recibirDanio(int porcentaje) {
         salud -= porcentaje;
         if (salud <= 0) {
