@@ -39,6 +39,7 @@ public class ControladorJuego implements JuegoListener {
     public void iniciar() {
         ventana.getPanelLogin().addIngresarListener(e -> iniciarSesion());
         ventana.getPanelMenu().addNivelListener(e -> iniciarPartida(Integer.parseInt(e.getActionCommand())));
+        ventana.getPanelMenu().addCambiarJugadorListener(e -> cambiarJugador());
         ventana.getPanelJuego().agregarEscuchaTeclado(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -77,6 +78,15 @@ public class ControladorJuego implements JuegoListener {
         timerJuego.stop();
         ventana.getPanelMenu().actualizar(jugadorActual);
         ventana.mostrar(VentanaPrincipal.MENU);
+    }
+
+    /** Cierra la sesión del jugador actual y vuelve al login para entrar con otro nombre. */
+    private void cambiarJugador() {
+        timerJuego.stop();
+        juego = null;
+        jugadorActual = null;
+        ventana.getPanelLogin().limpiar();
+        ventana.mostrar(VentanaPrincipal.LOGIN);
     }
 
     // ------------------------------------------------------------------

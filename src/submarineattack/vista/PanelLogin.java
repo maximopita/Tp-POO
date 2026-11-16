@@ -60,6 +60,12 @@ public class PanelLogin extends JPanel {
         return campoNombre.getText();
     }
 
+    /** Limpia el campo para que el próximo jugador no vea el nombre anterior. */
+    public void limpiar() {
+        campoNombre.setText("");
+        campoNombre.requestFocusInWindow();
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

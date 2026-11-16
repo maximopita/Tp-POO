@@ -29,6 +29,7 @@ public class PanelMenu extends JPanel {
     private final JLabel etiquetaJugador = new JLabel();
     private final JLabel etiquetaRecord = new JLabel();
     private final JButton[] botonesNivel = new JButton[Nivel.values().length];
+    private final JButton botonCambiarJugador = new JButton("Cambiar jugador");
 
     public PanelMenu() {
         setLayout(new GridBagLayout());
@@ -41,16 +42,17 @@ public class PanelMenu extends JPanel {
         configurarEtiqueta(etiquetaJugador);
         configurarEtiqueta(etiquetaRecord);
 
-        JPanel filaNiveles = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0));
+        JPanel filaNiveles = new JPanel(new FlowLayout(FlowLayout.CENTER, 16, 0));
         filaNiveles.setOpaque(false);
         for (Nivel nivel : Nivel.values()) {
             JButton boton = new JButton();
             boton.setActionCommand(String.valueOf(nivel.getNumero()));
-            boton.setFont(new Font("SansSerif", Font.BOLD, 20));
-            boton.setPreferredSize(new Dimension(190, 60));
+            boton.setPreferredSize(new Dimension(220, 60));
             botonesNivel[nivel.ordinal()] = boton;
             filaNiveles.add(boton);
         }
+
+        botonCambiarJugador.setFont(new Font("SansSerif", Font.PLAIN, 15));
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -63,6 +65,9 @@ public class PanelMenu extends JPanel {
         add(etiquetaRecord, gbc);
         gbc.gridy = 3;
         add(filaNiveles, gbc);
+        gbc.gridy = 4;
+        gbc.insets = new Insets(28, 14, 14, 14);
+        add(botonCambiarJugador, gbc);
     }
 
     private void configurarEtiqueta(JLabel etiqueta) {
@@ -78,9 +83,13 @@ public class PanelMenu extends JPanel {
             JButton boton = botonesNivel[nivel.ordinal()];
             boolean desbloqueado = nivel.getNumero() <= jugador.getNivelDesbloqueado();
             boton.setEnabled(desbloqueado);
-            boton.setText(desbloqueado
-                    ? "Nivel " + nivel.getNumero()
-                    : "Nivel " + nivel.getNumero() + " (bloqueado)");
+            if (desbloqueado) {
+                boton.setText("Nivel " + nivel.getNumero());
+                boton.setFont(new Font("SansSerif", Font.BOLD, 20));
+            } else {
+                boton.setText("Nivel " + nivel.getNumero() + " (bloqueado)");
+                boton.setFont(new Font("SansSerif", Font.BOLD, 14));
+            }
         }
     }
 
@@ -88,6 +97,11 @@ public class PanelMenu extends JPanel {
         for (JButton boton : botonesNivel) {
             boton.addActionListener(listener);
         }
+    }
+
+    /** Vuelve a la pantalla de login para ingresar con otro nombre de jugador. */
+    public void addCambiarJugadorListener(ActionListener listener) {
+        botonCambiarJugador.addActionListener(listener);
     }
 
     @Override
